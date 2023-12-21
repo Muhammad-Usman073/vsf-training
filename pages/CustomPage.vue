@@ -59,15 +59,12 @@ export default {
 
   setup() {
     const product = ref([]);
-    const inputFrom = ref(1);
-    const inputTo = ref(100);
-    const selected = ref(" ")
-
-    const methods = {
-      inputFrom,
-      inputTo,
-    };
+    const inputFrom = ref("");
+    const inputTo = ref("");
+    const selected = ref();
     const { getProductList } = useProduct();
+
+    //if i m getting products with filtered
     const fetchProducts = async () => {
       const data = await getProductList({
         filter: {
@@ -77,17 +74,20 @@ export default {
           },
         },
         sort: {
-          price:selected.value.toString(),
+          price: selected.value,
         },
         pageSize: "50",
       });
       product.value = data.items.map((items) => items);
       console.log(product);
     };
-    onMounted(fetchProducts);
-    watch([inputFrom, inputTo], () => {
-      return fetchProducts();
-    });
+    //else other query that is not filtered with any query
+    onMounted(() => fetchProducts());
+
+    // watch([inputFrom, inputTo, selected], () => {
+    //   setTimeout(()=>fetchProducts(),50)
+    // });
+    console.log(inputFrom.value,"input value");
     return {
       product,
       getName,
@@ -97,7 +97,7 @@ export default {
       getTotalReviews,
       inputFrom,
       inputTo,
-      selected
+      selected,
     };
   },
 };
