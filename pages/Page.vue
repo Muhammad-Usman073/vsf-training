@@ -30,9 +30,7 @@ export default defineComponent({
   ],
   setup() {
     const { routeData } = usePageStore();
-
     const type = computed(() => routeData?.type);
-
     return {
       type,
     };

@@ -40,6 +40,9 @@
           @reloadProducts="onReloadProducts"
         />
         <div class="products">
+
+          <h1>Products in category</h1>
+
           <CategoryEmptyResults v-if="products.length === 0 && !$fetchState.pending && isShowProducts" />
 
           <CategoryProductGrid
