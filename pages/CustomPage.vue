@@ -67,6 +67,13 @@ export default {
     //if i m getting products with filtered
     const fetchProducts = async () => {
       const data = await getProductList({
+        pageSize: "100",
+      });
+      product.value = data.items.map((items) => items);
+      console.log(product);
+    };
+    const fetchFilteredProducts = async () => {
+      const data = await getProductList({
         filter: {
           price: {
             from: inputFrom.value.toString(),
@@ -76,18 +83,29 @@ export default {
         sort: {
           price: selected.value,
         },
-        pageSize: "50",
+        pageSize: "30",
       });
       product.value = data.items.map((items) => items);
       console.log(product);
     };
     //else other query that is not filtered with any query
-    onMounted(() => fetchProducts());
 
-    // watch([inputFrom, inputTo, selected], () => {
-    //   setTimeout(()=>fetchProducts(),50)
-    // });
-    console.log(inputFrom.value,"input value");
+    if (
+      inputFrom.value.length == 0 ||
+      inputTo.value.length == 0 ||
+      selected.value.length == 0
+    ) {
+      onMounted(() => fetchProducts());
+    } else {
+      onMounted(() => fetchFilteredProducts());
+    }
+    let timer;
+    watch([inputFrom, inputTo, selected], () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fetchFilteredProducts();
+      }, 1000);
+    });
     return {
       product,
       getName,
