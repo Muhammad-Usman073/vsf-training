@@ -5,10 +5,18 @@
       <h3>filter by price:</h3>
       <div>
         <label for="from">From</label>
-        <input v-model="inputFrom" id="from" type="number" />
+        <input
+          id="from"
+          v-model="inputFrom"
+          type="number"
+        >
 
         <label for="to">To</label>
-        <input v-model="inputTo" id="to" type="number" />
+        <input
+          id="to"
+          v-model="inputTo"
+          type="number"
+        >
       </div>
       <h3>Sort products:</h3>
       <div>
@@ -19,39 +27,43 @@
       </div>
     </div>
     <div class="image_container">
-      <div v-for="(products, index) in product" :key="index">
+      <div
+        v-for="(products, index) in product"
+        :key="index"
+      >
         <SfProductCard
           :image="getProductThumbnailImage(products)"
-          :imageWidth="216"
-          :imageHeight="326"
-          badgeLabel=""
-          badgeColor=""
+          :image-width="216"
+          :image-height="326"
+          badge-label=""
+          badge-color=""
           :title="getName(products)"
-          linkTag=""
-          :scoreRating="getAverageRating(products)"
-          :reviewsCount="getTotalReviews(products)"
-          :regularPrice="getPrice(products).regular"
-          wishlistIcon="heart"
-          isInWishlistIcon="heart_fill"
-          showAddToCartButton
-          :isAddedToCart="true"
-          :addToCartDisabled="false"
+          link-tag=""
+          :score-rating="getAverageRating(products)"
+          :reviews-count="getTotalReviews(products)"
+          :regular-price="getPrice(products).regular"
+          wishlist-icon="heart"
+          is-in-wishlist-icon="heart_fill"
+          show-add-to-cart-button
+          :is-added-to-cart="true"
+          :add-to-cart-disabled="false"
         />
       </div>
     </div>
   </div>
 </template>
 <script>
-import { SfProductCard } from "@storefront-ui/vue";
-import { useProduct } from "~/composables";
+import { SfProductCard } from '@storefront-ui/vue';
+import { useProduct } from '~/composables';
 import {
   getName,
   getProductThumbnailImage,
   getAverageRating,
   getPrice,
   getTotalReviews,
-} from "~/modules/catalog/product/getters/productGetters";
-import { onMounted, ref, watch } from "@nuxtjs/composition-api";
+} from '~/modules/catalog/product/getters/productGetters';
+import { onMounted, ref, watch } from '@nuxtjs/composition-api';
+
 export default {
   components: {
     SfProductCard,
@@ -59,15 +71,15 @@ export default {
 
   setup() {
     const product = ref([]);
-    const inputFrom = ref("");
-    const inputTo = ref("");
+    const inputFrom = ref('');
+    const inputTo = ref('');
     const selected = ref();
     const { getProductList } = useProduct();
 
-    //if i m getting products with filtered
+    // if i m getting filtered products
     const fetchProducts = async () => {
       const data = await getProductList({
-        pageSize: "100",
+        pageSize: '100',
       });
       product.value = data.items.map((items) => items);
       console.log(product);
@@ -83,17 +95,17 @@ export default {
         sort: {
           price: selected.value,
         },
-        pageSize: "30",
+        pageSize: '30',
       });
       product.value = data.items.map((items) => items);
       console.log(product);
     };
-    //else other query that is not filtered with any query
+    // else other query that is not filtered with any query
 
     if (
-      inputFrom.value.length == 0 ||
-      inputTo.value.length == 0 ||
-      selected.value.length == 0
+      inputFrom.value.length === 0
+      || inputTo.value.length === 0
+      || selected.value.length === 0
     ) {
       onMounted(() => fetchProducts());
     } else {
