@@ -7,8 +7,6 @@
       <h3 class="sf-heading__title h3">
         {{ title }}
       </h3>
-      <h1>i m header1</h1>
-
     </div>
     <HTMLContent
       :content="content"
