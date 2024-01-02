@@ -3,8 +3,8 @@
     <div class="cms-page">
       <SfHeading
         v-if="page && page.content_heading"
-        :title="page.content_heading"
         :level="1"
+        :title="page.content_heading"
         class="sf-heading--no-underline sf-heading--left"
       />
       <HTMLContent
@@ -15,18 +15,18 @@
   </SfLoader>
 </template>
 <script lang="ts">
-import { SfLoader, SfHeading } from '@storefront-ui/vue';
+import {SfLoader, SfHeading} from '@storefront-ui/vue';
 import {
   defineComponent,
   ref,
   useFetch,
   useContext,
 } from '@nuxtjs/composition-api';
-import { useCache, CacheTagPrefix } from '@vue-storefront/cache';
-import { getMetaInfo } from '~/helpers/getMetaInfo';
-import { useContent } from '~/composables';
-import type { CmsPage } from '~/modules/GraphQL/types';
-import { usePageStore } from '~/stores/page';
+import {useCache, CacheTagPrefix} from '@vue-storefront/cache';
+import {getMetaInfo} from '~/helpers/getMetaInfo';
+import {useContent} from '~/composables';
+import type {CmsPage} from '~/modules/GraphQL/types';
+import {usePageStore} from '~/stores/page';
 import HTMLContent from '~/components/HTMLContent.vue';
 
 export default defineComponent({
@@ -37,9 +37,9 @@ export default defineComponent({
     SfHeading,
   },
   setup() {
-    const { routeData } = usePageStore();
-    const { addTags } = useCache();
-    const { error: nuxtError } = useContext();
+    const {routeData} = usePageStore();
+    const {addTags} = useCache();
+    const {error: nuxtError} = useContext();
     const {
       loadPage,
       loading,
@@ -49,11 +49,14 @@ export default defineComponent({
     console.log(routeData, 'Route name');
 
     useFetch(async () => {
-      page.value = await loadPage({ identifier: routeData.identifier });
-      if (error?.value?.page || !page.value) nuxtError({ statusCode: 404 });
-     addTags([{ prefix: CacheTagPrefix.View, value: routeData.identifier }]);
+      page.value = await loadPage({identifier: routeData.identifier});
+      if (error?.value?.page || !page.value) nuxtError({statusCode: 404});
+      addTags([{
+        prefix: CacheTagPrefix.View,
+        value: routeData.identifier
+      }]);
     });
-console.log(page, "page");
+    console.log(page, 'page');
     return {
       page,
       loading,
