@@ -332,7 +332,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-@import '@/modules/catalog/product/components/product-types/styles.scss';
+@import '../styles.scss';
 
 .product {
   &__select-size {

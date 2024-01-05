@@ -1,56 +1,81 @@
 <template>
-  <div>
+  <div
+  >
     <input
       v-model="searchHandler"
       class="faq_search"
       type="search"
     />
-
     <div class="faq_container">
       <button class="faq_button" @click="buttonHandler">
         Search
       </button>
     </div>
-    <div v-for="(products,index) in product" :key="index">
-      <SfProductCard
-        :addToCartDisabled="false"
-        :image="productGetters.getProductThumbnailImage(products)"
-        :imageHeight="326"
-        :imageWidth="216"
-        :isAddedToCart="true"
-        :regularPrice="productGetters.getPrice(products).regular"
-        :reviewsCount="productGetters.getTotalReviews(products)"
-        :scoreRating="productGetters.getAverageRating(products)"
-        :title="productGetters.getName(products)"
-        badgeColor=""
-        badgeLabel=""
-        isInWishlistIcon="heart_fill"
-        linkTag=""
-        showAddToCartButton
-        wishlistIcon="heart"
-      />
+    <div v-for="(product,index) in prodDetail" :key="index">
+      //product image
+      <div>
+        <SfImage
+          :alt="productGetters.getName(product)"
+          :height="326"
+          :src="productGetters.getProductThumbnailImage(product)"
+          :width="216"
+        />
+      </div>
+      //add to cart
+      <div>
+        <SfHeading
+          :title="productGetters.getName(product)"
+        />
+      </div>
+      //product price
+      <div>
+        <SfPrice :regular="productGetters.getPrice(product).regular"/>
+      </div>
+      <div>
+        <SfAddToCart
+          v-model="quantity"
+          class="product__add-to-cart"
+          @click="addToCartHandler"
+        />
+      </div>
+
 
     </div>
   </div>
 
 </template>
-
 <script>
-import {useProduct} from '~/composables';
-import {ref} from '@nuxtjs/composition-api';
-import {SfProductCard} from '@storefront-ui/vue';
+import {computed, ref, useRoute, useRouter} from '@nuxtjs/composition-api';
+import {useProduct, useCart} from '~/composables';
+import {SfImage, SfTile, SfHeading, SfPrice, SfSelect, SfAddToCart} from '@storefront-ui/vue';
 import productGetters from '~/modules/catalog/product/getters/productGetters';
 
 export default {
   components: {
-    SfProductCard
+    SfTile,
+    SfImage,
+    SfHeading,
+    SfPrice,
+    SfSelect,
+    SfAddToCart,
   },
   setup() {
     const searchHandler = ref('');
     const product = ref([]);
-    const {getProductList} = useProduct();
+    const prodDetail = ref([])
+    const quantity = ref('')
+
+
+    const {
+      getProductList,
+      getProductDetails,
+    } = useProduct();
+    const {
+      addItem,
+      error
+    } = useCart()
     const buttonHandler = async () => {
-      const data = await getProductList(
+      const productList = await getProductList(
         {
           filter: {
             sku: {
@@ -59,17 +84,55 @@ export default {
           }
         }
       )
-      product.value = data.items.map((items) => items)
-      console.log(product.value, 'product')
+      const productDetail = await getProductDetails(
+        {
+          filter: {
+            sku: {
+              eq: searchHandler.value.toString()
+            }
+          },
+        }
+      )
+      prodDetail.value = productDetail.items
+      product.value = productList.items
+
+      console.log(product.value[0], 'product list')
+      console.log(prodDetail.value[0], 'product detail')
 
     }
+
+// add to cart handler
+    const addToCartHandler = async () => {
+
+     const prod =  await addItem({
+          product: prodDetail.value[0],
+          quantity: parseInt(quantity.value),
+        })
+        console.log(error, 'error in composable')
+        console.log(prod,'product added to the cart')
+        console.log(quantity, 'quantity of the product')
+
+
+
+    }
+    // get product handler
+
     return {
       searchHandler,
       product,
-      SfProductCard,
       productGetters,
-      buttonHandler
-
+      buttonHandler,
+      prodDetail,
+      addToCartHandler,
+      SfImage,
+      SfTile,
+      SfHeading,
+      SfPrice,
+      SfSelect,
+      SfAddToCart,
+      getProductDetails,
+      getProductList,
+      quantity,
     }
   }
 }

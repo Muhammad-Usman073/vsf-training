@@ -14,9 +14,9 @@ import { htmlDecode } from '~/helpers/htmlDecoder';
 import { getTotalReviews, getAverageRating } from '~/modules/review/getters/reviewGetters';
 
 export interface ProductGetters {
-  getName: (product: ProductInterface) => string;
+  getName: (product: Ref<UnwrapRef<*[]>>) => string;
   getSlug(product: ProductInterface, category?: CategoryInterface): string;
-  getPrice: (product: ProductInterface) => Price;
+  getPrice: (product: Ref<UnwrapRef<*[]>>) => Price;
   getGallery: (product: ProductInterface, maxGallerySize: number) => MediaGalleryItem[];
   getCoverImage: (product: ProductInterface) => string;
   getAttributes: (products: ProductInterface[] | ProductInterface, filters?: Array<string>) => Record<string, ProductAttribute | string>;
@@ -29,7 +29,8 @@ export interface ProductGetters {
   getCategory(product: Product, currentUrlPath: string): CategoryTree | null;
   getProductRelatedProduct(product: ProductInterface): Product[];
   getProductSku(product: ProductInterface): string;
-  getProductThumbnailImage(product: ProductInterface): string;
+
+  getProductThumbnailImage(product: Ref<UnwrapRef<*[]>>): string;
   getProductUpsellProduct(product: ProductInterface): ProductInterface[];
   getShortDescription(product: ProductInterface): string;
   getTypeId(product: ProductInterface): string;
