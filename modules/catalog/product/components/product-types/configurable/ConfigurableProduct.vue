@@ -1,5 +1,6 @@
 <template>
   <div class="product">
+    <h2>products detail view</h2>
     <SfLoader
       class="loading--product-gallery"
       :loading="isFetching"
@@ -272,10 +273,11 @@ export default defineComponent({
     const productPrice = computed(() => getConfigurableProductPriceCommand(props.product));
     const productSpecialPrice = computed(() => getConfigurableProductSpecialPriceCommand(props.product));
 
+
     const getBaseSearchQuery = () => ({
       filter: {
         sku: {
-          eq: routeData.sku,
+          eq:routeData.sku,
         },
       },
       configurations: Object.entries(productConfiguration.value).map(
@@ -302,6 +304,10 @@ export default defineComponent({
       emit('fetchProduct', { query: getBaseSearchQuery() });
     };
 
+
+
+console.log(productConfiguration,"product configration")
+    console.log(props.product,"products")
     return {
       addItem,
       addItemToWishlist: addOrRemoveItem,
@@ -332,7 +338,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-@import '@/modules/catalog/product/components/product-types/styles.scss';
+@import '../styles.scss';
 
 .product {
   &__select-size {

@@ -21,16 +21,31 @@
           :width="216"
         />
       </div>
-      //add to cart
+//selection
+<!--      <div>-->
+<!--        <label for="size">Choose size:</label>-->
+
+<!--        <select name="size" id="size">-->
+<!--          <option value="volvo">{product.configurable_options[0].values[0].label}</option>-->
+<!--        </select>-->
+
+
+<!--        <label for="cars">Choose a Color:</label>-->
+<!--        <select name="cars" id="cars">-->
+<!--          <option value="volvo">Volvo</option>-->
+<!--          <option value="saab">Saab</option>-->
+<!--          <option value="mercedes">Mercedes</option>-->
+<!--          <option value="audi">Audi</option>-->
+<!--        </select>-->
+<!--      </div>-->
+
+
       <div>
         <SfHeading
           :title="productGetters.getName(product)"
         />
       </div>
-      //product price
-      <div>
-        <SfPrice :regular="productGetters.getPrice(product).regular"/>
-      </div>
+      //add to cart
       <div>
         <SfAddToCart
           v-model="quantity"
@@ -63,7 +78,7 @@ export default {
     const searchHandler = ref('');
     const product = ref([]);
     const prodDetail = ref([])
-    const quantity = ref('')
+    const quantity = ref(1)
 
 
     const {
@@ -107,6 +122,10 @@ export default {
      const prod =  await addItem({
           product: prodDetail.value[0],
           quantity: parseInt(quantity.value),
+       productConfiguration:{
+       "  MTQ0" : "Y29uZmlndXJhYmxlLzE0NC8xNjY=",
+     " OTM=" : "Y29uZmlndXJhYmxlLzkzLzU3"
+       }
         })
         console.log(error, 'error in composable')
         console.log(prod,'product added to the cart')
