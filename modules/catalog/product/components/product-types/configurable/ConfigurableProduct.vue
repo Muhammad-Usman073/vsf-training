@@ -306,7 +306,9 @@ export default defineComponent({
 
 
 
-console.log(productConfiguration,"product configration")
+console.log(productConfiguration,"product configuration")
+console.log(props.product,"products")
+console.log(configurableOptions,"configuration")
     console.log(props.product,"products")
     return {
       addItem,

@@ -11,6 +11,7 @@
         Search
       </button>
     </div>
+
     <div v-for="(product,index) in prodDetail" :key="index">
       //product image
       <div>
@@ -21,25 +22,28 @@
           :width="216"
         />
       </div>
-//selection
-<!--      <div>-->
-<!--        <label for="size">Choose size:</label>-->
-
-<!--        <select name="size" id="size">-->
-<!--          <option value="volvo">{product.configurable_options[0].values[0].label}</option>-->
-<!--        </select>-->
-
-
-<!--        <label for="cars">Choose a Color:</label>-->
-<!--        <select name="cars" id="cars">-->
-<!--          <option value="volvo">Volvo</option>-->
-<!--          <option value="saab">Saab</option>-->
-<!--          <option value="mercedes">Mercedes</option>-->
-<!--          <option value="audi">Audi</option>-->
-<!--        </select>-->
-<!--      </div>-->
+      //selection
+    <template v-for = "options in configurableOptions" >
+      <div v-if="options.attribute_code === 'color'">
+        <label for="">{{options.label}}</label>
+          <select v-model="colorSelection">
+            <option disabled value="">Please select a color</option>
+            <option v-for="colorOptions in options.values" :value="colorOptions.uid"  >{{colorOptions.label}}</option>
+          </select>
+        {{colorSelection}}
+      </div>
 
 
+      <div v-else-if="options.attribute_code === 'size'">
+        <label for="">{{options.label}}</label>
+        <select v-model="sizeSelection">
+          <option disabled value="">Please select a size</option>
+          <option v-for="sizeOptions in options.values" :value="sizeOptions.uid" >{{sizeOptions.label}}</option>
+        </select>
+        {{sizeSelection}}
+      </div>
+
+    </template>
       <div>
         <SfHeading
           :title="productGetters.getName(product)"
@@ -60,9 +64,9 @@
 
 </template>
 <script>
-import {computed, ref, useRoute, useRouter} from '@nuxtjs/composition-api';
+import {computed, ref, useRoute, useRouter, watch} from '@nuxtjs/composition-api';
 import {useProduct, useCart} from '~/composables';
-import {SfImage, SfTile, SfHeading, SfPrice, SfSelect, SfAddToCart} from '@storefront-ui/vue';
+import {SfImage, SfTile, SfHeading, SfPrice, SfAddToCart,SfSelect,SfColor} from '@storefront-ui/vue';
 import productGetters from '~/modules/catalog/product/getters/productGetters';
 
 export default {
@@ -73,14 +77,29 @@ export default {
     SfPrice,
     SfSelect,
     SfAddToCart,
+    SfColor
   },
   setup() {
     const searchHandler = ref('');
     const product = ref([]);
-    const prodDetail = ref([])
+    const prodDetail = ref()
     const quantity = ref(1)
+    const colorSelection = ref("")
+    const sizeSelection = ref("")
+    const configurableOptions = ref([])
+    const updateConfiguration = ref({
+      'MTQ0':"",
+      'OTM=':""
+    })
+const update = ()=>{
+  updateConfiguration.value['MTQ0'] = colorSelection.value.toString()
+  updateConfiguration.value['OTM='] = sizeSelection.value.toString()
+}
+watch([colorSelection,sizeSelection],()=>{
+  update()
+  console.log(updateConfiguration)
 
-
+})
     const {
       getProductList,
       getProductDetails,
@@ -110,32 +129,18 @@ export default {
       )
       prodDetail.value = productDetail.items
       product.value = productList.items
-
-      console.log(product.value[0], 'product list')
-      console.log(prodDetail.value[0], 'product detail')
-
-    }
-
+     configurableOptions.value = prodDetail.value[0].configurable_options.map(config=>config)
+      console.log(prodDetail.value, 'product detail')
+      console.log(configurableOptions,"configurable Options")
+}
 // add to cart handler
     const addToCartHandler = async () => {
-
-     const prod =  await addItem({
-          product: prodDetail.value[0],
-          quantity: parseInt(quantity.value),
-       productConfiguration:{
-       "  MTQ0" : "Y29uZmlndXJhYmxlLzE0NC8xNjY=",
-     " OTM=" : "Y29uZmlndXJhYmxlLzkzLzU3"
-       }
-        })
-        console.log(error, 'error in composable')
-        console.log(prod,'product added to the cart')
-        console.log(quantity, 'quantity of the product')
-
-
-
+      await addItem({
+        product: prodDetail.value[0],
+        quantity: parseInt(quantity.value),
+        productConfiguration: updateConfiguration.value
+      })
     }
-    // get product handler
-
     return {
       searchHandler,
       product,
@@ -149,9 +154,13 @@ export default {
       SfPrice,
       SfSelect,
       SfAddToCart,
+      SfColor,
       getProductDetails,
       getProductList,
       quantity,
+      colorSelection,
+      sizeSelection,
+      configurableOptions
     }
   }
 }
