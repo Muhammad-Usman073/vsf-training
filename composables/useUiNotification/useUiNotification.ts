@@ -23,7 +23,7 @@ export interface UseUiNotificationInterface {
   /**
    * Displays the notification in the UI
    */
-  send(notification: UiNotification): void;
+  send(notification: { message: string, type: string }): void;
 
   /**
    * Contains notifications added using the `send` method

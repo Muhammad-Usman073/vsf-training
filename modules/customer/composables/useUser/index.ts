@@ -162,7 +162,7 @@ export function useUser(): UseUserInterface {
     try {
       loading.value = true;
       const apiState = app.context.$vsf.$magento.config.state;
-
+console.log(apiState,"api state")
       const { data, errors } = await app.$vsf.$magento.api.generateCustomerToken(
         {
           email: providedUser.email,
@@ -172,6 +172,7 @@ export function useUser(): UseUserInterface {
         customQuery || {},
         customHeaders || {},
       );
+      console.log(data,"customer Token")
       Logger.debug('[Result]:', { data });
 
       if (errors) {

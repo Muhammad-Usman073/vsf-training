@@ -18,6 +18,7 @@
       mode="out-in"
     >
       <div>
+        <h1>login modal</h1>
         <LoginForm
           v-if="currentlyDisplayedForm === 'login'"
           data-testid="login-form"
@@ -151,6 +152,7 @@ export default defineComponent({
     };
 
     const onLoginFormSubmit = async (form: LoginFormFields) => {
+      console.log("form login handler",form)
       loginForm.value = form;
       const { token, cleanup } = await getRecaptchaInfo(isRecaptchaEnabled.value);
       await login({ user: { ...form, ...(token ? { recaptchaToken: token } : {}) } });
@@ -171,7 +173,7 @@ export default defineComponent({
           lastname: form.lastName,
           password: form.password,
           is_subscribed: form.shouldSubscribeToNewsletter,
-          ...(token ? { recaptchaToken: token } : {}),
+          ...(token ? {recaptchaToken: token} : {}),
         },
       });
       cleanup();

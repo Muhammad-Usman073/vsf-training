@@ -72,7 +72,7 @@ export interface UseUserInterface {
   /**
    * Registers a new customer and saves details returned from the API in the `user` property
    */
-  register(params: UseUserRegisterParams): Promise<void>;
+  register(params: { user: { password: string, email: string } }): Promise<void>;
 
   /**
    * Logs in the customer based on provided username and password and saves the details returned from the API in the `user` property

@@ -43,7 +43,6 @@ export function useProduct(id?: string): UseProductInterface {
 
     return products;
   };
-
   const getProductDetails = async (searchParams: GetProductSearchParams): Promise<ProductDetails | null> => {
     Logger.debug(`useProduct/${id}/getProductDetails`, searchParams);
     let products: ProductDetails = null;

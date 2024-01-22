@@ -1,6 +1,7 @@
 import { useContext } from '@nuxtjs/composition-api';
+console.log(useContext,
+  'useContext')
 import { Logger } from '~/helpers/logger';
-
 export type FetchPolicy = 'cache-first' | 'network-only' | 'cache-only' | 'no-cache' | 'standby';
 
 export type Variables = {

@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import {onMounted, ref} from '@nuxtjs/composition-api';
+import {onMounted, ref,useContext,getCurrentInstance} from '@nuxtjs/composition-api';
 import ContentBlock from '~/components/ContentBlock.vue';
 import ContentBlocks from '~/components/ContentBlocks.vue';
 import {useContent, useUser} from '~/composables';
@@ -35,6 +35,8 @@ export default {
       userBlock.value = blockValue?.[0].content
       guestBlock.value = blockValue?.[1].content
     })
+    console.log(useContext(),"context")
+    console.log(getCurrentInstance(),"current instance")
     return {
       ContentBlock,
       ContentBlocks,
@@ -45,5 +47,4 @@ export default {
   }
 
 }
-
 </script>
