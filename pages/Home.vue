@@ -71,6 +71,7 @@ import {
   useContext,
   onMounted,
   useFetch,
+  ssrRef
 } from '@nuxtjs/composition-api';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useCache, CacheTagPrefix } from '@vue-storefront/cache';
@@ -98,11 +99,12 @@ export default defineComponent({
   setup() {
     const { addTags } = useCache();
     const { loadPage } = useContent();
-    const { app } = useContext();
+    const { app,$vsf } = useContext();
     const year = new Date().getFullYear();
     const { isDesktop } = app.$device;
-
+console.log($vsf,"vsf")
     const page = ref<CmsPage | null>(null);
+const todos = ssrRef([]);
     const hero = ref({
       title: app.i18n.t('Colorful summer dresses are already in store'),
       subtitle: app.i18n.t('SUMMER COLLECTION {year}', { year }),
@@ -202,6 +204,7 @@ export default defineComponent({
 
     useFetch(async () => {
       page.value = await loadPage({ identifier: 'home' });
+      todos.value = await $vsf.$jsonplaceholder.api.searchTodos({id:1})
     });
 
     onMounted(() => {
@@ -214,6 +217,7 @@ export default defineComponent({
       callToAction,
       hero,
       page,
+      todos
     };
   },
   head() {

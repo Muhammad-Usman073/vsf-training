@@ -95,6 +95,7 @@ export default async () => {
       }],
       '@nuxt/image',
       '@pinia/nuxt',
+      '~/integrations/jsonplaceholder/nuxt'
     ],
     modules: [
       '~/modules/catalog',

@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+const path = require("path")
 /* eslint-disable unicorn/prefer-module */
 const cookieNames = {
   currencyCookieName: 'vsf-currency',
@@ -63,5 +63,11 @@ module.exports = {
         },
       },
     },
+    jsonplaceholder: {
+      location: path.resolve(__dirname, 'integrations/jsonplaceholder/src/index.server.js'),
+      configuration: {
+        baseURL: 'https://jsonplaceholder.typicode.com/',
+      }
+    }
   },
 };
