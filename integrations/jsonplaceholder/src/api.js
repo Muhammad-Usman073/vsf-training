@@ -1,16 +1,11 @@
-module.exports.searchTodos = async (context, params) => {
+module.exports.getAllItems = async (context) => {
   const { client } = context;
-  console.log(client);
-  let url = 'todos';
-
-  if (params.id) {
-    url += `/${params.id}`;
-  };
+  let url = 'https://6411a090b80d57320a118aaa.mockapi.io/api/v1/youMayAlsoLike/products';
 
   try {
     const response = await client.get(url);
     return Array.isArray(response.data) ? response.data : [response.data]
   } catch (err) {
-    console.error("[jsonplaceholder] searchTodos failed.", err)
+    console.error("[newIntegration] searchTodos failed.", err)
   }
 }

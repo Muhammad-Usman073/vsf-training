@@ -63,10 +63,10 @@ module.exports = {
         },
       },
     },
-    jsonplaceholder: {
+    newIntegration: {
       location: path.resolve(__dirname, 'integrations/jsonplaceholder/src/index.server.js'),
       configuration: {
-        baseURL: 'https://jsonplaceholder.typicode.com/',
+        baseURL: 'https://6411a090b80d57320a118aaa.mockapi.io/api/v1/youMayAlsoLike/products',
       }
     }
   },

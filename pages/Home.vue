@@ -102,9 +102,8 @@ export default defineComponent({
     const { app,$vsf } = useContext();
     const year = new Date().getFullYear();
     const { isDesktop } = app.$device;
-console.log($vsf,"vsf")
     const page = ref<CmsPage | null>(null);
-const todos = ssrRef([]);
+const customProducts = ssrRef([]);
     const hero = ref({
       title: app.i18n.t('Colorful summer dresses are already in store'),
       subtitle: app.i18n.t('SUMMER COLLECTION {year}', { year }),
@@ -204,7 +203,7 @@ const todos = ssrRef([]);
 
     useFetch(async () => {
       page.value = await loadPage({ identifier: 'home' });
-      todos.value = await $vsf.$jsonplaceholder.api.searchTodos({id:1})
+      customProducts.value = await $vsf.$newIntegration.api.getAllItems()
     });
 
     onMounted(() => {
@@ -217,7 +216,7 @@ const todos = ssrRef([]);
       callToAction,
       hero,
       page,
-      todos
+      customProducts
     };
   },
   head() {
