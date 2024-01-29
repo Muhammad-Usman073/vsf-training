@@ -1,5 +1,10 @@
 // SFUI doesn't ship types and no @types package available
-declare module '@storefront-ui/vue';
+declare module '@storefront-ui/vue'
+
+export class SfCarousel {
+}
+
+;
 
 // omit-deep doesn't ship types and no @types package available
 declare module 'omit-deep';
