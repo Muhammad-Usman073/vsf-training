@@ -41,13 +41,16 @@ export default defineComponent({
     const {addTags} = useCache();
     const {error: nuxtError} = useContext();
     const {
+      loadBlocks,
       loadPage,
       loading,
       error,
     } = useContent();
     const page = ref<CmsPage | null>(null);
-    console.log(routeData, 'Route name');
-
+    const pageBlock = ref();
+    console.log(routeData,"route data")
+console.log("page",page)
+console.log("page",pageBlock)
     useFetch(async () => {
       page.value = await loadPage({identifier: routeData.identifier});
       if (error?.value?.page || !page.value) nuxtError({statusCode: 404});
@@ -56,7 +59,6 @@ export default defineComponent({
         value: routeData.identifier
       }]);
     });
-    console.log(page, 'page');
     return {
       page,
       loading,

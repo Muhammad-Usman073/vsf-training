@@ -1,0 +1,7 @@
+"externalCheckout" : {
+"cmsUrl" : "https://freshmagento.test"
+}
+cart": {
+"synchronize": true,
+...
+}
