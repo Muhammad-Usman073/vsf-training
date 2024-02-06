@@ -47,10 +47,7 @@ export default defineComponent({
       error,
     } = useContent();
     const page = ref<CmsPage | null>(null);
-    const pageBlock = ref();
-    console.log(routeData,"route data")
 console.log("page",page)
-console.log("page",pageBlock)
     useFetch(async () => {
       page.value = await loadPage({identifier: routeData.identifier});
       if (error?.value?.page || !page.value) nuxtError({statusCode: 404});

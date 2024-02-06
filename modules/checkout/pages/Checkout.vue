@@ -1,6 +1,5 @@
 <template>
   <div id="checkout">
-    <h1>checkout handling</h1>
     <div class="checkout">
       <div class="checkout__main">
         <SfSteps
