@@ -1,5 +1,10 @@
 <template>
   <div id="cart">
+<div>
+  <h1>
+    i m cart
+  </h1>
+</div>
     <div class="container">
       <SfBreadcrumbs
         :breadcrumbs="breadcrumbs"
