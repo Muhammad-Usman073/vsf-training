@@ -102,7 +102,6 @@ export default defineComponent({
     const { app,$vsf } = useContext();
     const year = new Date().getFullYear();
     const { isDesktop } = app.$device;
-console.log($vsf,"vsf")
     const page = ref<CmsPage | null>(null);
 const todos = ssrRef([]);
     const hero = ref({

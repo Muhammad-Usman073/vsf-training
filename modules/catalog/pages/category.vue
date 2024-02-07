@@ -1,5 +1,8 @@
 <template>
   <div id="category">
+    <div>
+      <h1>products category</h1>
+    </div>
     <CmsContent
       v-if="isShowCms"
       :content="cmsContent"

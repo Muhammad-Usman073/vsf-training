@@ -1,5 +1,8 @@
 <template>
   <div class="product">
+    <div>
+      <h1>configurable products</h1>
+    </div>
     <SfLoader
       class="loading--product-gallery"
       :loading="isFetching"
@@ -275,7 +278,7 @@ export default defineComponent({
     const getBaseSearchQuery = () => ({
       filter: {
         sku: {
-          eq: routeData.sku,
+          eq: "WJ12",
         },
       },
       configurations: Object.entries(productConfiguration.value).map(
