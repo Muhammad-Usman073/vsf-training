@@ -1,8 +1,5 @@
 <template>
   <div class="product">
-    <div>
-      <h1>configurable products</h1>
-    </div>
     <SfLoader
       class="loading--product-gallery"
       :loading="isFetching"
